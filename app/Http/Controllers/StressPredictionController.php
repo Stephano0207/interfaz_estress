@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Prediction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -9,7 +10,7 @@ class StressPredictionController extends Controller
 {
 
 
-       public function showForm()
+    public function showForm()
     {
         return view('stress_prediction.form');
     }
@@ -39,9 +40,26 @@ class StressPredictionController extends Controller
         try {
             $response = Http::post('http://localhost:5000/predict', $input_data);
 
+
             if ($response->successful()) {
-                $prediction = $response->json()['prediction'];
-                return back()->with('prediction', $prediction);
+                // Guardar en la base de datos
+                Prediction::create([
+                    'Study_Hours_Per_Day' => $validated['study_hours'],
+                    'Extracurricular_Hours_Per_Day' => $validated['extracurricular_hours'],
+                    'Sleep_Hours_Per_Day' => $validated['sleep_hours'],
+                    'Social_Hours_Per_Day' => $validated['social_hours'],
+                    'Physical_Activity_Hours_Per_Day' => $validated['physical_activity_hours'],
+                    'GPA' => $validated['gpa'],
+                    'Stress_Level' =>$response['prediction']
+                ]);
+
+
+
+
+                return back()->with([
+                    'prediction' => $response->json()['prediction'],
+                    'recommendations' => $response->json()['recommendations']
+                ]);
             } else {
                 return back()->withErrors(['api_error' => 'Error from prediction API']);
             }
@@ -49,7 +67,6 @@ class StressPredictionController extends Controller
             return back()->withErrors(['api_error' => 'Could not connect to prediction service']);
         }
 
-        // Opción 2: Ejecutar script Python directamente (ver alternativa más abajo)
     }
 
 
