@@ -60,12 +60,66 @@
             <form method="POST" action="{{ route('predict.stress') }}" class="needs-validation" novalidate>
                 @csrf
 
+                <!-- Sección de datos personales -->
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        <i class="fas fa-user me-2"></i>Datos Personales
+    </div>
+    <div class="card-body">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="nombres" name="nombres" required>
+                    <label for="nombres">Nombres</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="apellidos" name="apellidos" required>
+                    <label for="apellidos">Apellidos</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="carrera" name="carrera" required>
+                    <label for="carrera">Carrera</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input type="number" class="form-control" id="ciclo" name="ciclo" min="1" max="10" required>
+                    <label for="ciclo">N° de Ciclo</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <select class="form-select" id="sexo" name="sexo" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Femenino">Femenino</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                    <label for="sexo">Sexo</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input type="number" class="form-control" id="edad" name="edad" min="15" max="60" required>
+                    <label for="edad">Edad</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Resto del formulario existente -->
+
                 <div class="row g-3">
                     <div class="col-md-6">
                         <div class="form-floating">
                             <input type="number" step="0.1" class="form-control" id="study_hours" name="study_hours"
                                    value="{{ old('study_hours') }}" min="0" max="24" required>
-                            <label for="study_hours">Study Hours Per Day</label>
+                            <label for="study_hours">Horas estudiadas por dia</label>
                             @error('study_hours')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
@@ -76,7 +130,7 @@
                         <div class="form-floating">
                             <input type="number" step="0.1" class="form-control" id="extracurricular_hours" name="extracurricular_hours"
                                    value="{{ old('extracurricular_hours') }}" min="0" max="24" required>
-                            <label for="extracurricular_hours">Extracurricular Hours</label>
+                            <label for="extracurricular_hours">Horas extracurriculares</label>
                             @error('extracurricular_hours')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
@@ -87,7 +141,7 @@
                         <div class="form-floating">
                             <input type="number" step="0.1" class="form-control" id="sleep_hours" name="sleep_hours"
                                    value="{{ old('sleep_hours') }}" min="0" max="24" required>
-                            <label for="sleep_hours">Sleep Hours Per Day</label>
+                            <label for="sleep_hours">Horas de sueño por día</label>
                             @error('sleep_hours')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
@@ -98,7 +152,7 @@
                         <div class="form-floating">
                             <input type="number" step="0.1" class="form-control" id="social_hours" name="social_hours"
                                    value="{{ old('social_hours') }}" min="0" max="24" required>
-                            <label for="social_hours">Social Hours Per Day</label>
+                            <label for="social_hours">Horas sociales por día</label>
                             @error('social_hours')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
@@ -109,7 +163,7 @@
                         <div class="form-floating">
                             <input type="number" step="0.1" class="form-control" id="physical_activity_hours" name="physical_activity_hours"
                                    value="{{ old('physical_activity_hours') }}" min="0" max="24" required>
-                            <label for="physical_activity_hours">Physical Activity Hours</label>
+                            <label for="physical_activity_hours">Horas de actividad física</label>
                             @error('physical_activity_hours')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
@@ -130,7 +184,7 @@
 
                 <div class="d-grid mt-4">
                     <button type="submit" class="btn btn-primary btn-lg">
-                        <i class="fas fa-chart-bar me-2"></i> Predict Stress Level
+                        <i class="fas fa-chart-bar me-2"></i> Predecir el nivel de estrés
                     </button>
                 </div>
             </form>

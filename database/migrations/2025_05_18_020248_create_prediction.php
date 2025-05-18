@@ -20,7 +20,16 @@ return new class extends Migration
             $table->float("Physical_Activity_Hours_Per_Day");
             $table->float("GPA");
             $table->string("Stress_Level");
-            // $table->timestamps();
+
+            // Nuevos campos
+            $table->string("nombres");
+            $table->string("apellidos");
+            $table->string("carrera");
+            $table->integer("ciclo");
+            $table->string("sexo", 20);
+            $table->integer("edad");
+
+            $table->timestamps(); // Reactivar timestamps
         });
     }
 

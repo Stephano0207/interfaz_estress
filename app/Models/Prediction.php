@@ -14,7 +14,13 @@ class Prediction extends Model
         'Social_Hours_Per_Day',
         'Physical_Activity_Hours_Per_Day',
         'GPA',
-        'Stress_Level'
+        'Stress_Level',
+        'nombres',
+    'apellidos',
+    'carrera',
+    'ciclo',
+    'sexo',
+    'edad'
     ];
 
     protected $casts = [
@@ -26,7 +32,7 @@ class Prediction extends Model
         'GPA' => 'float'
     ];
 
-    public $timestamps = false; // Desactiva los timestamps
+
 
 
 }

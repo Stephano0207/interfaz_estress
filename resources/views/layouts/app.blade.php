@@ -7,8 +7,7 @@
     <title>{{ config('app.name', 'Student Stress Predictor') }}</title>
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
     <!-- Bootstrap 5 CSS -->
@@ -91,6 +90,23 @@
             border-color: var(--primary-color);
             box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
         }
+
+            .table-hover tbody tr:hover {
+        background-color: rgba(67, 97, 238, 0.05);
+    }
+
+    .badge.bg-danger { background-color: #f72585 !important; }
+    .badge.bg-warning { background-color: #f8961e !important; }
+    .badge.bg-success { background-color: #4cc9f0 !important; color: #000; }
+
+    .pagination .page-item.active .page-link {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+
+    .pagination .page-link {
+        color: var(--primary-color);
+    }
     </style>
 </head>
 <body>
@@ -108,6 +124,11 @@
                         <li class="nav-item">
                             <a class="nav-link active" href="{{ route('stress.form') }}">
                                 <i class="fas fa-chart-line me-1"></i> Stress Prediction
+                            </a>
+                        </li>
+                             <li class="nav-item">
+                            <a class="nav-link active" href="{{route("predictions.list")}}">
+                               <i class="fa-solid fa-user"></i>Students
                             </a>
                         </li>
                     </ul>
