@@ -7,7 +7,7 @@ use App\Models\Prediction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Maatwebsite\Excel\Facades\Excel;
-
+use Carbon\Carbon;
 class StressPredictionController extends Controller
 {
 
@@ -98,10 +98,45 @@ class StressPredictionController extends Controller
 //     return view('students.list', compact('predictions'));
 // }
 
+// public function list(Request $request)
+// {
+//     $query = Prediction::query();
+
+//     if ($request->filled('carrera')) {
+//         $query->where('carrera', $request->carrera);
+//     }
+
+//     if ($request->filled('stress_level')) {
+//         $query->where('stress_level', $request->stress_level);
+//     }
+
+//     $predictions = $query->orderBy('created_at', 'desc')->paginate(10);
+
+//     return view('students.list', [
+//         'predictions' => $predictions,
+//         'carreras' => Prediction::distinct('carrera')->pluck('carrera'),
+//         'niveles' => ['Low', 'Moderate', 'High']
+//     ]);
+// }
+
 public function list(Request $request)
 {
-    $query = Prediction::query();
+    $query = Prediction::query(); // Si tienes relación con User
 
+    // Búsqueda por rango de fechas
+    if ($request->filled('fecha_inicio') && $request->filled('fecha_fin')) {
+        $query->whereBetween('created_at', [
+            Carbon::parse($request->fecha_inicio)->startOfDay(),
+            Carbon::parse($request->fecha_fin)->endOfDay()
+        ]);
+    }
+
+    // Búsqueda por fecha específica
+    elseif ($request->filled('fecha')) {
+        $query->whereDate('created_at', Carbon::parse($request->fecha));
+    }
+
+    // Resto de tus filtros existentes (carrera, nivel de estrés, etc.)
     if ($request->filled('carrera')) {
         $query->where('carrera', $request->carrera);
     }

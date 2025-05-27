@@ -2,6 +2,70 @@
 
 
 @section('content')
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        <i class="fas fa-filter me-2"></i>Filtros de Búsqueda
+    </div>
+    <div class="card-body">
+        <form method="GET" action="{{ route('predictions.list') }}">
+            <div class="row g-3">
+                <!-- Búsqueda por rango de fechas -->
+                <div class="col-md-4">
+                    <label for="fecha_inicio" class="form-label">Fecha Inicio</label>
+                    <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio"
+                           value="{{ request('fecha_inicio') }}">
+                </div>
+                <div class="col-md-4">
+                    <label for="fecha_fin" class="form-label">Fecha Fin</label>
+                    <input type="date" class="form-control" id="fecha_fin" name="fecha_fin"
+                           value="{{ request('fecha_fin') }}">
+                </div>
+
+                <!-- Búsqueda por fecha exacta (alternativa) -->
+                <div class="col-md-4">
+                    <label for="fecha" class="form-label">Fecha Exacta</label>
+                    <input type="date" class="form-control" id="fecha" name="fecha"
+                           value="{{ request('fecha') }}">
+                </div>
+
+                <!-- Tus filtros existentes -->
+                <div class="col-md-4">
+                    <label for="carrera" class="form-label">Carrera</label>
+                    <select class="form-select" id="carrera" name="carrera">
+                        <option value="">Todas</option>
+                        @foreach($carreras as $carrera)
+                            <option value="{{ $carrera }}" {{ request('carrera') == $carrera ? 'selected' : '' }}>
+                                {{ $carrera }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="stress_level" class="form-label">Nivel de Estrés</label>
+                    <select class="form-select" id="stress_level" name="stress_level">
+                        <option value="">Todos</option>
+                        @foreach($niveles as $nivel)
+                            <option value="{{ $nivel }}" {{ request('stress_level') == $nivel ? 'selected' : '' }}>
+                                {{ $nivel }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col-md-4 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary me-2">
+                        <i class="fas fa-search me-1"></i> Buscar
+                    </button>
+                    <a href="{{ route('predictions.list') }}" class="btn btn-secondary">
+                        <i class="fas fa-undo me-1"></i> Limpiar
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2><i class="fas fa-list me-2"></i>Historial de Predicciones</h2>
@@ -74,7 +138,15 @@
 
 @push('styles')
 <style>
-
+    .table td, .table th {
+        vertical-align: middle;
+    }
+    .badge.bg-danger { background-color: #dc3545 !important; }
+    .badge.bg-warning { color: #000 !important; }
+    .form-label {
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
 </style>
 @endpush
 

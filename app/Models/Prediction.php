@@ -20,7 +20,8 @@ class Prediction extends Model
     'carrera',
     'ciclo',
     'sexo',
-    'edad'
+    'edad',
+    'created_at'
     ];
 
     protected $casts = [
