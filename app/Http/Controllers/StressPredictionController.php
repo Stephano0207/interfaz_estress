@@ -52,7 +52,8 @@ class StressPredictionController extends Controller
 
         // Opción 1: Llamar a API Flask
         try {
-            $response = Http::post('http://localhost:5000/predict', $input_data);
+            // $response = Http::post('http://localhost:5000/predict', $input_data);
+             $response = Http::post('proyectoprediccionestress-production.up.railway.app/predict', $input_data);
 
 
             if ($response->successful()) {
