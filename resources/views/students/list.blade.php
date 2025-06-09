@@ -91,6 +91,7 @@
                             <th>Edad</th>
                             <th>Nivel de Estrés</th>
                             <th>Fecha</th>
+                            <th>Tiempo estimado</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -111,6 +112,13 @@
                                 </span>
                             </td>
                             <td>{{ $prediction->created_at->format('d/m/Y H:i') }}</td>
+                            <td>
+                @if($prediction->completion_seconds)
+                    {{ gmdate('H:i:s', $prediction->completion_seconds) }}
+                @else
+                    N/A
+                @endif
+            </td>
                             <td>
                                 <a href="#" class="btn btn-sm btn-outline-primary" title="Ver detalles">
                                     <i class="fas fa-eye"></i>

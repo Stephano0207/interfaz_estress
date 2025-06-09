@@ -30,6 +30,10 @@ return new class extends Migration
             $table->integer("edad");
 
             $table->timestamps(); // Reactivar timestamps
+
+            $table->timestamp('start_time')->nullable();
+            $table->timestamp('end_time')->nullable();
+             $table->integer('completion_seconds')->nullable()->comment('Tiempo en segundos');
         });
     }
 

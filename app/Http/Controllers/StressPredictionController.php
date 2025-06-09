@@ -17,11 +17,14 @@ class StressPredictionController extends Controller
 
     public function showForm()
     {
+            session(['form_start_time' => now()]);
         return view('stress_prediction.form');
     }
 
     public function predict(Request $request)
     {
+            // Obtener hora de inicio de la sesión
+        $startTime = session('form_start_time');
         $validated = $request->validate([
             'study_hours' => 'required|numeric|between:0,24',
             'extracurricular_hours' => 'required|numeric|between:0,24',
@@ -58,6 +61,8 @@ class StressPredictionController extends Controller
 
             if ($response->successful()) {
                 // Guardar en la base de datos
+                    $endTime = now();
+                    $completionTime = $startTime->diffInSeconds($endTime);
                 Prediction::create([
                     'Study_Hours_Per_Day' => $validated['study_hours'],
                     'Extracurricular_Hours_Per_Day' => $validated['extracurricular_hours'],
@@ -72,14 +77,19 @@ class StressPredictionController extends Controller
         'carrera' => $validated['carrera'],
         'ciclo' => $validated['ciclo'],
         'sexo' => $validated['sexo'],
-        'edad' => $validated['edad']
+        'edad' => $validated['edad'],
+        'start_time' => $startTime,
+        'end_time' => $endTime,
+        'completion_seconds' => $completionTime
                 ]);
 
-
+ // Limpiar sesión
+    $request->session()->forget('form_start_time');
 
 
                 return back()->with([
                     'prediction' => $response->json()['prediction'],
+                            'completion_time' => $this->formatDuration($completionTime),
                     'recommendations' => $response->json()['recommendations'] ?? null,
                     'success'=> 'Prediccion registrada correctamente'
                 ]);
@@ -92,6 +102,14 @@ class StressPredictionController extends Controller
 
     }
 
+    private function formatDuration($seconds)
+{
+    $hours = floor($seconds / 3600);
+    $minutes = floor(($seconds % 3600) / 60);
+    $seconds = $seconds % 60;
+
+    return sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+}
 
 // public function list()
 // {

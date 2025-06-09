@@ -1,11 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
     <div class="text-center mb-5">
         <h2 class="fw-bold mb-3">Prediccion de Nivel de estress</h2>
         <p class="lead text-muted">Completa el siguiente formulario para medir tu nuvel de estress y enviarte unas recomendaciones personalizadas</p>
     </div>
+    @if(session('completion_time'))
+<div class="alert alert-info mt-4">
+    <strong>Tiempo de completado:</strong> {{ session('completion_time') }} (HH:MM:SS)
+</div>
+@endif
 
     @if(session('prediction'))
     <div class="result-container mb-5">
