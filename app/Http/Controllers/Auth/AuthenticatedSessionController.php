@@ -28,7 +28,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        switch (auth()->user()->role) {
+        switch (auth()->user()->roles[0]->name) {
             case 'admin':
                 return redirect()->intended(route('predictions.index'));
             case 'psychologist':
