@@ -28,7 +28,7 @@ class RolesTableSeeder extends Seeder
     $admin = User::create([
         'name' => 'Admin',
         'email' => 'admin@example.com',
-        'password' => Hash::make('password')
+        'password' => Hash::make('admin')
     ]);
 
      $student = User::create([
