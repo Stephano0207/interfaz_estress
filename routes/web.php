@@ -10,7 +10,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 
   Route::get('/', [AuthenticatedSessionController::class, 'create'])
-        ->name('login');
+        ->name('login.web');
 // Para psycologo
 Route::middleware(['auth','role:admin,psychologist'])->group(function(){
     Route::get('/index', [StressPredictionController::class,'index'])->name("predictions.index");
