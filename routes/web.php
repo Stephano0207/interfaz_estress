@@ -6,10 +6,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StressPredictionController;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+  Route::get('/', [AuthenticatedSessionController::class, 'create'])
+        ->name('login');
 // Para psycologo
 Route::middleware(['auth','role:admin,psychologist'])->group(function(){
     Route::get('/index', [StressPredictionController::class,'index'])->name("predictions.index");
