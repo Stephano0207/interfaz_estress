@@ -63,92 +63,113 @@
             </div>
         </div>
 
-        {{-- ===== Encuesta Likert 1–5 ===== --}}
-        @php
-            $preguntas = [
-                'Me cuesta concentrarme al estudiar o en clase.',
-                'Me siento abrumado/a por mis tareas académicas.',
-                'Duermo menos de lo que necesito para rendir bien.',
-                'Me irrito o frustro con facilidad.',
-                'Siento que no tengo control sobre mi carga académica.',
-                'Me preocupa constantemente no llegar a las fechas límite.',
-                'Tengo molestias físicas relacionadas al estrés (dolor de cabeza, cuello, etc.).',
-                'Me resulta difícil desconectarme y relajarme.',
-            ];
-        @endphp
+        {{-- ===== Encuesta Likert (actualizada a “Totalmente en desacuerdo … Totalmente de acuerdo”) ===== --}}
+@php
+    $preguntas = [
+        'La evaluación me permitió reflexionar sobre mi nivel de estrés.',
+        'El proceso de evaluación fue claro y fácil de entender.',
+        'Me sentí cómodo(a) al responder las preguntas.',
+        'Considero que el tiempo destinado para la evaluación fue adecuado.',
+        'El lenguaje utilizado en la evaluación fue comprensible.',
+        'La evaluación me ayudó a tomar conciencia sobre mi bienestar emocional.',
+        'Estoy satisfecho(a) con la forma en que se realizó la evaluación.',
+        'Recomendaría este proceso de evaluación a otros estudiantes.',
+    ];
+@endphp
 
-        <div class="card mb-4 shadow-sm">
-            <div class="card-header bg-info text-white">
-                <i class="fas fa-check-double me-2"></i>Responde del <strong>1</strong> al <strong>5</strong>
-            </div>
-            <div class="card-body">
-                <p class="text-muted mb-3">
-                    1 = Nunca / Muy en desacuerdo &nbsp;|&nbsp;
-                    3 = A veces / Neutral &nbsp;|&nbsp;
-                    5 = Siempre / Muy de acuerdo
-                </p>
+<div class="card mb-4 shadow-sm">
+    <div class="card-header bg-info text-white">
+        <i class="fas fa-check-double me-2"></i>Marca tu nivel de acuerdo (1 a 5)
+    </div>
+    <div class="card-body">
 
-                <div class="table-responsive">
-                    <table class="table table-bordered align-middle">
-                        <thead class="table-light">
-                            <tr>
-                                <th style="width:50%">Ítem</th>
-                                <th class="text-center">1</th>
-                                <th class="text-center">2</th>
-                                <th class="text-center">3</th>
-                                <th class="text-center">4</th>
-                                <th class="text-center">5</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($preguntas as $idx => $texto)
-                            @php $num = $idx + 1; @endphp
-                            <tr>
-                                <td><strong>{{ $num }}.</strong> {{ $texto }}</td>
-                                @for($v=1; $v<=5; $v++)
-                                    <td class="text-center">
-                                        <input type="radio"
-                                               class="form-check-input"
-                                               name="items[{{ $num }}]"
-                                               value="{{ $v }}"
-                                               @if($v===1) required @endif>
-                                    </td>
-                                @endfor
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
+        {{-- Leyenda 1..5 como en la hoja de referencia --}}
+        <div class="table-responsive mb-3">
+            <table class="table table-bordered align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="text-center" style="width:20%;">1</th>
+                        <th class="text-center" style="width:20%;">2</th>
+                        <th class="text-center" style="width:20%;">3</th>
+                        <th class="text-center" style="width:20%;">4</th>
+                        <th class="text-center" style="width:20%;">5</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center small">Totalmente en desacuerdo</td>
+                        <td class="text-center small">En desacuerdo</td>
+                        <td class="text-center small">Neutral</td>
+                        <td class="text-center small">De acuerdo</td>
+                        <td class="text-center small">Totalmente de acuerdo</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-                {{-- Resumen en vivo --}}
-                <div class="row g-3 mt-3">
-                    <div class="col-md-6">
-                        <div class="p-3 border rounded">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <div class="small text-muted">Puntaje total</div>
-                                    <div id="lblTotal" class="fs-4 fw-semibold">0 / 40</div>
-                                </div>
-                                <div>
-                                    <div class="small text-muted">Nivel estimado</div>
-                                    <span id="lblNivel" class="badge bg-secondary">Pendiente</span>
-                                </div>
-                            </div>
-                            <div class="progress mt-3" style="height:10px;">
-                                <div id="barTotal" class="progress-bar" role="progressbar" style="width:0%"></div>
-                            </div>
-                            <input type="hidden" name="total_score" id="total_score" value="0">
-                            <input type="hidden" name="duration_seconds" id="duration_seconds" value="0">
+        {{-- Tabla de ítems con opciones 1..5 --}}
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width:50%">Ítem</th>
+                        <th class="text-center">1</th>
+                        <th class="text-center">2</th>
+                        <th class="text-center">3</th>
+                        <th class="text-center">4</th>
+                        <th class="text-center">5</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($preguntas as $idx => $texto)
+                        @php $num = $idx + 1; @endphp
+                        <tr>
+                            <td><strong>{{ $num }}.</strong> {{ $texto }}</td>
+                            @for($v=1; $v<=5; $v++)
+                                <td class="text-center">
+                                    <input type="radio"
+                                           class="form-check-input"
+                                           name="items[{{ $num }}]"
+                                           value="{{ $v }}"
+                                           @if($v===1) required @endif>
+                                </td>
+                            @endfor
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
+        {{-- Resumen en vivo (se mantiene igual) --}}
+        <div class="row g-3 mt-3">
+            <div class="col-md-6">
+                <div class="p-3 border rounded">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <div class="small text-muted">Puntaje total</div>
+                            <div id="lblTotal" class="fs-4 fw-semibold">0 / 40</div>
+                        </div>
+                        <div>
+                            <div class="small text-muted">Nivel estimado</div>
+                            <span id="lblNivel" class="badge bg-secondary">Pendiente</span>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Observaciones (opcional)</label>
-                        <textarea name="observaciones" class="form-control" rows="3"
-                                  placeholder="Comentarios que quieras agregar…"></textarea>
+                    <div class="progress mt-3" style="height:10px;">
+                        <div id="barTotal" class="progress-bar" role="progressbar" style="width:0%"></div>
                     </div>
+                    <input type="hidden" name="total_score" id="total_score" value="0">
+                    <input type="hidden" name="duration_seconds" id="duration_seconds" value="0">
                 </div>
             </div>
+            <div class="col-md-6">
+                <label class="form-label">Observaciones (opcional)</label>
+                <textarea name="observaciones" class="form-control" rows="3"
+                          placeholder="Comentarios que quieras agregar…"></textarea>
+            </div>
         </div>
+    </div>
+</div>
+
 
         {{-- ===== Acciones ===== --}}
         <div class="d-flex justify-content-end gap-2">
